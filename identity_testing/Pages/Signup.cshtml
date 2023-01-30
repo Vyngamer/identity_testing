@@ -1,0 +1,166 @@
+﻿@page
+@model identity_testing.Pages.SignupModel
+@{
+}
+
+
+<script>
+	function showImgPreview(input) {
+		if (input.files[0]) {
+			var uploadimg = new FileReader();
+			uploadimg.onload = function (displayimg) {
+				$("#imgPreview").attr('src', displayimg.target.result);
+			}
+			uploadimg.readAsDataURL(input.files[0]);
+		}
+	}
+</script>
+
+<script>
+	function check_strength()
+	{
+		var pass_to_check = document.getElementById("password_field").value;
+		if (pass_to_check.length < 8) {
+			document.getElementById("message").innerHTML = "Password Length Must be at least 8 Characters";
+			document.getElementById("strength_value").style.color = "Red";
+			document.getElementById("strength_value").innerHTML = "Very Weak";
+            return ("too_short");
+            }
+		else if (pass_to_check.search(/[0-9]/) == -1) {
+			document.getElementById("message").innerHTML = "Password require at least 1 number";
+			document.getElementById("strength_value").style.color = "Red";
+			document.getElementById("strength_value").innerHTML = "Weak";
+            return ("no_number");
+            }
+		else if (pass_to_check.search(/[a-z]/) == -1) {
+			document.getElementById("message").innerHTML = "Password requires at least 1 Lowercase Letter";
+			document.getElementById("strength_value").style.color = "Light Red";
+			document.getElementById("strength_value").innerHTML = "Medium";
+            return ("no_lowercase");
+            }
+		else if (pass_to_check.search(/[A-Z]/) == -1) {
+			document.getElementById("message").innerHTML = "Password require at least 1 Uppercase Letter";
+			document.getElementById("strength_value").style.color = "Blue";
+			document.getElementById("strength_value").innerHTML = "Strong";
+            return ("no_uppercase");
+            }
+		else if (pass_to_check.search(/^(?=.*[!#$%^&*])/) == -1) {
+			document.getElementById("message").innerHTML = "Password require at least 1 Special Character";
+			document.getElementById("strength_value").style.color = "Yellow";
+			document.getElementById("strength_value").innerHTML = "Quite Strong";
+            return ("no_specialcharacters");
+            }
+		document.getElementById("message").innerHTML = "None, Excellent!"
+		document.getElementById("strength_value").style.color = "Green";
+		document.getElementById("strength_value").innerHTML = "Very Strong";
+	}
+</script>
+
+
+
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<h1 class="mb-3">Register </h1>
+
+			<form method="post" enctype="multipart/form-data">
+				<div asp-validation-summary="All" class="text-danger"></div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Email"></label>
+					<input type="Text" asp-for="RModel.Email" class="form-control" required/>
+					<span asp-validaton-for="RModel.Email" class="text-danger"></span>
+				</div>
+
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Password"></label>
+					<input type="password" id="password_field" asp-for="RModel.Password" class="form-control" onkeyup="check_strength()" />
+					<p>Password Strength: <p id="strength_value"></p></p>
+					<p>Recommendations: <span id="message"></span></p>
+					<span asp-validaton-for="RModel.Password" class="text-danger"></span>
+				</div>
+
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.ConfirmPassword"></label>
+					<input type="password" asp-for="RModel.ConfirmPassword" class="form-control"/>
+					<span asp-validaton-for="RModel.ConfirmPassword" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.full_name"></label>
+					<input type="Text" asp-for="RModel.full_name" class="form-control" />
+					<span asp-validaton-for="RModel.full_name" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.credit_card_no"></label>
+					<input type="Text" asp-for="RModel.credit_card_no" class="form-control" />
+					<span asp-validaton-for="RModel.credit_card_no" class="text-danger"></span>
+				</div>
+
+				<div class="row mb-3">
+					<label class="col-sm-2 col-form-label" asp-for="RModel.gender"></label>
+					<div class="col-sm-10 d-flex align-items-center">
+						<div class="form-check form-check-inline">
+							@Html.RadioButtonFor(m => m.RModel.gender, "M", new {@class = "form-check-input"})
+							<label class="form-check-label">Male</label>
+						</div>
+						<div class="form-check form-check-inline">
+							@Html.RadioButtonFor(m => m.RModel.gender, "F", new {@class = "form-check-input"})
+							<label class="form-check-label">Female</label>
+						</div>
+						<span asp-validation-for="RModel.gender"></span>
+					</div>
+				</div>
+
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.mobile_no"></label>
+					<input type="Text" asp-for="RModel.mobile_no" class="form-control" />
+					<span asp-validaton-for="RModel.mobile_no" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.delivery_address"></label>
+					<input type="Text" asp-for="RModel.delivery_address" class="form-control" />
+					<span asp-validaton-for="RModel.delivery_address" class="text-danger"></span>
+				</div>
+
+
+				<!--Insert photo thing here-->
+				<div @*class="col-md-4"*@>
+					<input type="file" accept="image/*" asp-for="image_source" class="form-control" onchange="showImgPreview(this)" required /><br />
+					<img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" />
+				</div>
+
+
+
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.about_me"></label>
+					<input type="Text" asp-for="RModel.about_me" class="form-control" />
+					<span asp-validaton-for="RModel.about_me" class="text-danger"></span>
+				</div>
+
+
+
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

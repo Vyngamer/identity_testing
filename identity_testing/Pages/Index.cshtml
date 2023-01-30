@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@{
+    @if(Model.signed_in == true)
+    {
+        <h1>Details of current user</h1>
+        <div>
+            <h3>Full Name: </h3><h5>@Model.full_name</h5> <br/>
+            <h3>Credit Card Number: </h3><h5>@Model.credit_card_no</h5> <br/>
+            <h3>Gender: </h3><h5>@Model.gender</h5> <br/>
+            <h3>Mobile Number: </h3><h5>@Model.mobile_no</h5> <br/>
+            <h3>Delivery Address: </h3><h5>@Model.delivery_address</h5> <br/>
+            <h3>Email: </h3><h5>@Model.email</h5> <br/>
+            <h3>Phote: </h3><br/><img src="@(string.IsNullOrEmpty(Model.image_string)?"/uploads/user1.png" : Model.image_string)" /><br/>
+            <h3>About Me: </h3><h5>@Model.about_me</h5>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h1 class="display-4">Welcome</h1>
+            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        </div>
+    }
+}
